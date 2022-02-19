@@ -16,6 +16,8 @@ go get -u github.com/pry0cc/soxy
 
 ```
 cat proxies.txt | soxy | tee alive.txt
+# if u want save pre results add -a after tee
+cat proxies.txt | soxy | tee -a alive.txt
 ```
 
 ### Credit
