@@ -22,3 +22,4 @@ cat proxies.txt | soxy | tee -a alive.txt
 
 ### Credit
 I pulled the proxy checking code and some of the multi-threading out of https://github.com/trigun117/ProxyChecker, so credit to trigun117! 
+from https://github.com/pry0cc/soxy 
