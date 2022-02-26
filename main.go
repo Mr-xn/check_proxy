@@ -60,7 +60,7 @@ func CheckProxySOCKS(proxyy string, wg *sync.WaitGroup) (err error) {
 		},
 	}
 
-	response, err := httpClient.Get("https://api.ipify.org?format=json")
+	response, err := httpClient.Get("http://ip-api.com/json")
 
 	if err != nil {
 		return
