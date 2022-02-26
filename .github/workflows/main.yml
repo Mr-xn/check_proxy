@@ -25,7 +25,7 @@ jobs:
       with:
         # Artifact name
         name: # optional, default is artifact
-          check_proxy_linux
+          check_proxy
         # A file, directory or wildcard pattern that describes what to upload
         path: 
           ./check_proxy_linux
@@ -50,7 +50,7 @@ jobs:
       with:
         # Artifact name
         name: # optional, default is artifact
-          check_proxy_mac
+          check_proxy
         # A file, directory or wildcard pattern that describes what to upload
         path: 
           ./check_proxy_mac
@@ -75,7 +75,7 @@ jobs:
       with:
         # Artifact name
         name: # optional, default is artifact
-          check_proxy_win
+          check_proxy
         # A file, directory or wildcard pattern that describes what to upload
         path: 
           ./check_proxy.exe
