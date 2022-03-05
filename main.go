@@ -60,13 +60,32 @@ func CheckProxySOCKS(proxyy string, wg *sync.WaitGroup) (err error) {
 		},
 	}
 
-	response, err := httpClient.Get("https://api-ipv4.ip.sb/jsonip")
+	urls := []string{
+		"https://api-ipv4.ip.sb/jsonip",
+		"https://api.ipify.org?format=json",
+		"https://ip-fast.com/api/ip/?format=json",
+		"https://api.myip.com/",
+		"https://ipinfo.io/widget",
+		"https://ipapi.co/json",
+		"https://api.techniknews.net/ipgeo/",
+	}
+	rand.Seed(time.Now().Unix())
+	url := urls[rand.Intn(len(urls))]
+	//response, err := httpClient.Get("https://api-ipv4.ip.sb/jsonip")
+	request, err := http.NewRequest("GET", url, nil)
+	//增加header选项
+	request.Header.Add("Referer", url)
+	request.Header.Add("User-Agent", "curl/7.77.0")
+	request.Header.Add("Origin", "url")
 
 	if err != nil {
 		return
 	}
 
+	//处理返回结果
+	response, _ := httpClient.Do(request)
 	body, err := ioutil.ReadAll(response.Body)
+	//body, err := ioutil.ReadAll(response.Body)
 
 	if err != nil {
 		return
