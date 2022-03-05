@@ -4,9 +4,10 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
-        "math/rand"
 	"golang.org/x/net/proxy"
+	"io"
 	"io/ioutil"
+	"math/rand"
 	"net"
 	"net/http"
 	"os"
@@ -17,7 +18,7 @@ import (
 )
 
 const (
-	timeout = time.Duration(5 * time.Second)
+	timeout = 5 * time.Second
 )
 
 // IP is a struct for storing the JSON output from apify
@@ -32,9 +33,14 @@ func main() {
 
 	sc := bufio.NewScanner(os.Stdin)
 	for sc.Scan() {
-		proxy := strings.ToLower(sc.Text())
+		Chproxy := strings.ToLower(sc.Text())
 		wg.Add(1)
-		go CheckProxySOCKS(proxy, &wg)
+		go func() {
+			err := CheckProxySOCKS(Chproxy, &wg)
+			if err != nil {
+				return
+			}
+		}()
 	}
 
 	wg.Wait()
@@ -72,27 +78,28 @@ func CheckProxySOCKS(proxyy string, wg *sync.WaitGroup) (err error) {
 	}
 	rand.Seed(time.Now().Unix())
 	url := urls[rand.Intn(len(urls))]
-	//response, err := httpClient.Get("https://api-ipv4.ip.sb/jsonip")
+	//response, err := httpClient.Get(url)
 	request, err := http.NewRequest("GET", url, nil)
 	//增加header选项
-	request.Header.Add("Referer", url)
-	request.Header.Add("User-Agent", "curl/7.77.0")
-	request.Header.Add("Origin", "url")
+	request.Header.Set("Referer", url)
+	request.Header.Set("User-Agent", "curl/7.77.0")
+	request.Header.Set("Origin", "url")
+	//处理返回结果
+
+	response, err := httpClient.Do(request)
 
 	if err != nil {
-		return
+		return nil
 	}
 
-	//处理返回结果
-	response, _ := httpClient.Do(request)
 	body, err := ioutil.ReadAll(response.Body)
+
+	if err != nil {
+		return nil
+	}
 	//body, err := ioutil.ReadAll(response.Body)
 
-	if err != nil {
-		return
-	}
-
-	json.Unmarshal([]byte(body), &ip)
+	json.Unmarshal(body, &ip)
 	sp := strings.Split(proxyy, ":")
 	respIp := sp[0]
 	port := sp[1]
@@ -100,6 +107,11 @@ func CheckProxySOCKS(proxyy string, wg *sync.WaitGroup) (err error) {
 	if ip.IP == respIp {
 		fmt.Printf("%s:%s\n", respIp, port)
 	}
-	defer response.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			return
+		}
+	}(response.Body)
 	return nil
 }
