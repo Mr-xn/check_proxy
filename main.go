@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+        "math/rand"
 	"golang.org/x/net/proxy"
 	"io/ioutil"
 	"net"
