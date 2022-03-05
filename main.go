@@ -75,6 +75,7 @@ func CheckProxySOCKS(proxyy string, wg *sync.WaitGroup) (err error) {
 		"https://ipinfo.io/widget",
 		"https://ipapi.co/json",
 		"https://api.techniknews.net/ipgeo/",
+		"https://myipip.net/",
 	}
 	rand.Seed(time.Now().Unix())
 	url := urls[rand.Intn(len(urls))]
