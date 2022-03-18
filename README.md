@@ -18,6 +18,14 @@ go get -u github.com/pry0cc/soxy
 cat proxies.txt | soxy | tee alive.txt
 # if u want save pre results add -a after tee
 cat proxies.txt | soxy | tee -a alive.txt
+# test 9 times for filter the best proxies possible and use sort & uniq save result
+# 1 from pbpaste (tested on mac  
+
+file=socks.txt; for ((i=1;i<9;i++)) do pbpaste|./check_proxy_mac|tee -a $file; done;wc $file && sort $file|uniq|tee $file;wc $file
+
+# 2 from file
+
+file=socks.txt; for ((i=1;i<9;i++)) do cat $file|./check_proxy_mac|tee -a $file; done;wc $file && sort $file|uniq|tee $file;wc $file
 ```
 
 ### Credit
