@@ -74,7 +74,7 @@ func CheckProxySOCKS(proxyy string, wg *sync.WaitGroup) (err error) {
 		"https://api.myip.com/",
 		"https://ipinfo.io/widget",
 		"https://ipapi.co/json",
-		"https://api.techniknews.net/ipgeo/",
+		//"https://api.techniknews.net/ipgeo/",
 		"https://myipip.net/",
 	}
 	rand.Seed(time.Now().Unix())
