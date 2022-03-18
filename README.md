@@ -21,11 +21,11 @@ cat proxies.txt | soxy | tee -a alive.txt
 # test 9 times for filter the best proxies possible and use sort & uniq save result
 # 1 from pbpaste (tested on mac  
 
-file=socks.txt; for ((i=1;i<9;i++)) do pbpaste|./check_proxy_mac|tee -a $file; done;wc $file && sort $file|uniq|tee $file;wc $file
+file=socks.txt; for ((i=1;i<9;i++)) do pbpaste|./check_proxy_mac|tee -a $file; done && wc $file && sort $file|uniq|tee $file && wc $file
 
 # 2 from file
 
-file=socks.txt; for ((i=1;i<9;i++)) do cat $file|./check_proxy_mac|tee -a $file; done;wc $file && sort $file|uniq|tee $file;wc $file
+file=socks.txt; for ((i=1;i<9;i++)) do cat $file|./check_proxy_mac|tee -a $file; done && wc $file && sort $file|uniq|tee $file && wc $file
 ```
 
 ### Credit
